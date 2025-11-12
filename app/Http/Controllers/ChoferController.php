@@ -45,13 +45,13 @@ class ChoferController extends Controller
             'telefono' => 'nullable|string|max:8',
         ]);
 
-        $choferes->update($request->all()); // ✅ usar $choferes
+        $choferes->update($request->all()); 
         return redirect()->route('choferes.index')->with('success', 'Chofer actualizado correctamente.');
     }
 
     public function destroy(Chofer $choferes)
     {
-        $choferes->update(['estado' => 'Inactivo']); // ✅ usar $choferes
+        $choferes->update(['estado' => 'Inactivo']);
         return redirect()->route('choferes.index')->with('success', 'Chofer desactivado correctamente.');
     }
 
