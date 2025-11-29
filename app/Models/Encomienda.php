@@ -24,6 +24,9 @@ class Encomienda extends Model
         'id_auto',
     ];
 
+    // Relación de los campos fecha como datetime
+    protected $dates = ['fecha_envio', 'fecha_entrega'];
+
     // Relaciones
     public function cliente() { return $this->belongsTo(Cliente::class, 'id_cliente'); }
     public function empleado() { return $this->belongsTo(User::class, 'id_empleado'); }

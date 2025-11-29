@@ -13,9 +13,9 @@ return new class extends Migration
             $table->string('codigo_barra', 50)->unique();
             $table->string('descripcion', 150);
             $table->decimal('peso', 8, 2);
-            $table->date('fecha_envio');
-            $table->date('fecha_entrega')->nullable();
-            $table->enum('estado', ['En tránsito','Entregado','Cancelado'])->default('En tránsito');
+            $table->dateTime('fecha_envio');  // Cambio de date a datetime
+            $table->dateTime('fecha_entrega')->nullable();  // Cambio de date a datetime
+            $table->enum('estado', ['En tránsito', 'Entregado', 'Cancelado'])->default('En tránsito');
 
             $table->unsignedBigInteger('id_cliente');
             $table->unsignedBigInteger('id_empleado'); // users

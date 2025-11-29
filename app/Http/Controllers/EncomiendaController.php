@@ -54,16 +54,16 @@ public function store(Request $request)
         'id_auto' => 'required',
     ]);
 
-
+    // Generar código único de la encomienda
     $codigo = 'ENC-' . time() . '-' . rand(100, 999);
 
-
+    // Crear registro en BD con la fecha y hora actual
     $encomienda = Encomienda::create([
         'codigo_barra' => $codigo,
         'descripcion' => $request->descripcion,
         'peso' => $request->peso,
-        'fecha_envio' => $request->fecha_envio,
-        'fecha_entrega' => null,
+        'fecha_envio' => now(),  // Usar la fecha y hora actual
+        'fecha_entrega' => null, // Se actualizará cuando se entregue
         'estado' => 'En tránsito',
         'id_cliente' => $request->id_cliente,
         'id_empleado' => $request->id_empleado,
@@ -73,13 +73,12 @@ public function store(Request $request)
         'id_auto' => $request->id_auto,
     ]);
 
-   
+    // Crear código de barras
     $this->ensureBarcodeImage($codigo);
 
-
     return redirect()->route('encomiendas.print', $encomienda->id_encomienda);
-    
 }
+
 
     public function edit($id)
     {
@@ -177,4 +176,23 @@ public function store(Request $request)
 
         return view('encomiendas.print', compact('data', 'barcodeUrl'));
     }
+
+public function deliver($id)
+{
+    $encomienda = Encomienda::findOrFail($id);
+
+    // Verificar si la encomienda está en tránsito
+    if ($encomienda->estado == 'En tránsito') {
+        // Cambiar el estado a "Entregado"
+        $encomienda->estado = 'Entregado';
+        $encomienda->fecha_entrega = now();  // Fecha y hora de entrega
+        $encomienda->save();
+
+        return redirect()->route('encomiendas.index')->with('success', 'Encomienda entregada correctamente.');
+    }
+
+    return redirect()->route('encomiendas.index')->with('error', 'Esta encomienda no puede ser entregada.');
+}
+
+
 }

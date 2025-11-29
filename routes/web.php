@@ -60,5 +60,8 @@ Route::get('encomiendas/{id_encomienda}/print', [EncomiendaController::class, 'p
 // Ruta para descargar PDF (la veremos después cuando integremos DOMPDF)
 Route::get('encomiendas/{id_encomienda}/pdf', [EncomiendaController::class, 'pdf'])->name('encomiendas.pdf');
 Route::get('/encomiendas/print/{id_encomienda}', [EncomiendaController::class, 'print'])->name('encomiendas.print');
+//para entrega
+Route::get('/encomiendas/{id}/deliver', [EncomiendaController::class, 'deliver'])->name('encomiendas.deliver');
+
 
 
