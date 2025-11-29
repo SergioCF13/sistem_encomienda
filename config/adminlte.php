@@ -314,7 +314,18 @@ return [
         [
             'text' => 'Choferes',
             'url'  => 'choferes',
-            'icon' => 'fas fa-fw fa-building',
+            'icon' => 'fas fa-fw fa-car',
+        ],
+        [
+            'text' => 'Autos',
+            'url'  => 'autos',
+            'icon' => 'fas fa-fw fa-car',
+        ],
+
+        [
+            'text' => 'Encomiendas',
+            'url'  => 'encomiendas',
+            'icon' => 'fas fa-fw fa-car',
         ],
 
 
