@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($sucursales as $sucursal)
+                    @foreach($sucursales as $sucursal)
                         <tr>
                             <td>{{ $sucursal->id_sucursal }}</td>
                             <td class="text-start">{{ $sucursal->nombre }}</td>
@@ -55,13 +55,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-muted py-4">
-                                <i class="fas fa-info-circle"></i> No hay sucursales registradas.
-                            </td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -82,7 +76,7 @@ $(function () {
         responsive: true,
         pageLength: 10,
         language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json' },
-        columnDefs: [{ orderable: false, targets: [5] }]
+        columnDefs: [{ orderable: false, targets: [5] }]  // Columna de Acciones no ordenable
     });
 });
 </script>

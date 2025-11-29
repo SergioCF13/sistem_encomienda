@@ -66,7 +66,7 @@
         <label>Chofer:</label>
         <select name="id_chofer" class="form-control" required>
             @foreach ($choferes as $ch)
-            <option value="{{ $ch->id_choferes }}">{{ $ch->nombre }}</option>
+            <option value="{{ $ch->id_chofer }}">{{ $ch->nombre }}</option>
             @endforeach
         </select>
     </div>

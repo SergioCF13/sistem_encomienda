@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($clientes as $cliente)
+                    @foreach($clientes as $cliente)
                         <tr>
                             <td>{{ $cliente->id_cliente }}</td>
                             <td class="text-start">{{ $cliente->nombre }}</td>
@@ -62,13 +62,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center text-muted py-4">
-                                <i class="fas fa-info-circle"></i> No hay clientes registrados.
-                            </td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -96,7 +90,7 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script>
-    $(function () {
+    $(document).ready(function() {
         $('#clientes-table').DataTable({
             responsive: true,
             pageLength: 10,
@@ -104,7 +98,7 @@
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
             },
             columnDefs: [
-                { orderable: false, targets: [6] }
+                { orderable: false, targets: [6] }  // No ordenable en la columna de Acciones
             ]
         });
     });

@@ -13,9 +13,7 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class EncomiendaController extends Controller
 {
-    /* ============================================================
-       LISTAR / BUSCAR
-    ============================================================ */
+
     public function index(Request $request)
     {
         $buscar = $request->buscar;
@@ -29,9 +27,7 @@ class EncomiendaController extends Controller
         return view('encomiendas.index', compact('encomiendas', 'buscar'));
     }
 
-    /* ============================================================
-       CREAR FORM
-    ============================================================ */
+
     public function create()
     {
         return view('encomiendas.create', [
@@ -43,52 +39,48 @@ class EncomiendaController extends Controller
         ]);
     }
 
-    /* ============================================================
-       GUARDAR ENCOMIENDA
-    ============================================================ */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'descripcion' => 'required',
-            'peso' => 'required|numeric',
-            'fecha_envio' => 'required|date',
-            'id_cliente' => 'required',
-            'id_empleado' => 'required',
-            'id_sucursal_origen' => 'required',
-            'id_sucursal_destino' => 'required',
-            'id_chofer' => 'required',
-            'id_auto' => 'required',
-        ]);
 
-        // Generar código único de la encomienda
-        $codigo = 'ENC-' . time() . '-' . rand(100, 999);
+public function store(Request $request)
+{
+    $request->validate([
+        'descripcion' => 'required',
+        'peso' => 'required|numeric',
+        'fecha_envio' => 'required|date',
+        'id_cliente' => 'required',
+        'id_empleado' => 'required',
+        'id_sucursal_origen' => 'required',
+        'id_sucursal_destino' => 'required',
+        'id_chofer' => 'required',
+        'id_auto' => 'required',
+    ]);
 
-        // Crear registro en BD
-        $encomienda = Encomienda::create([
-            'codigo_barra' => $codigo,
-            'descripcion' => $request->descripcion,
-            'peso' => $request->peso,
-            'fecha_envio' => $request->fecha_envio,
-            'fecha_entrega' => null,
-            'estado' => 'En tránsito',
-            'id_cliente' => $request->id_cliente,
-            'id_empleado' => $request->id_empleado,
-            'id_sucursal_origen' => $request->id_sucursal_origen,
-            'id_sucursal_destino' => $request->id_sucursal_destino,
-            'id_chofer' => $request->id_chofer,
-            'id_auto' => $request->id_auto,
-        ]);
 
-        // Crear imagen del código de barras
-        $this->ensureBarcodeImage($codigo);
+    $codigo = 'ENC-' . time() . '-' . rand(100, 999);
 
-        return redirect()->route('encomiendas.index')
-            ->with('success', 'Encomienda registrada exitosamente.');
-    }
 
-    /* ============================================================
-       EDITAR FORM
-    ============================================================ */
+    $encomienda = Encomienda::create([
+        'codigo_barra' => $codigo,
+        'descripcion' => $request->descripcion,
+        'peso' => $request->peso,
+        'fecha_envio' => $request->fecha_envio,
+        'fecha_entrega' => null,
+        'estado' => 'En tránsito',
+        'id_cliente' => $request->id_cliente,
+        'id_empleado' => $request->id_empleado,
+        'id_sucursal_origen' => $request->id_sucursal_origen,
+        'id_sucursal_destino' => $request->id_sucursal_destino,
+        'id_chofer' => $request->id_chofer,
+        'id_auto' => $request->id_auto,
+    ]);
+
+   
+    $this->ensureBarcodeImage($codigo);
+
+
+    return redirect()->route('encomiendas.print', $encomienda->id_encomienda);
+    
+}
+
     public function edit($id)
     {
         return view('encomiendas.edit', [
@@ -101,9 +93,7 @@ class EncomiendaController extends Controller
         ]);
     }
 
-    /* ============================================================
-       ACTUALIZAR
-    ============================================================ */
+
     public function update(Request $request, $id)
     {
         $encomienda = Encomienda::findOrFail($id);
@@ -126,9 +116,7 @@ class EncomiendaController extends Controller
             ->with('success', 'Encomienda actualizada correctamente.');
     }
 
-    /* ============================================================
-       ELIMINAR
-    ============================================================ */
+ 
     public function destroy($id)
     {
         Encomienda::findOrFail($id)->delete();
@@ -137,9 +125,7 @@ class EncomiendaController extends Controller
             ->with('success', 'Encomienda eliminada.');
     }
 
-    /* ============================================================
-       MOSTRAR DETALLE
-    ============================================================ */
+
     public function show($id)
     {
         $data = Encomienda::with([
@@ -154,9 +140,6 @@ class EncomiendaController extends Controller
         return view('encomiendas.show', compact('data'));
     }
 
-    /* ============================================================
-       GENERAR IMAGEN DE BARRA
-    ============================================================ */
     protected function ensureBarcodeImage(string $codigo_barra): string
     {
         $dir = public_path('barcodes');
@@ -178,9 +161,7 @@ class EncomiendaController extends Controller
         return asset('barcodes/' . $fileName);
     }
 
-    /* ============================================================
-       IMPRIMIR TICKET / VISTA
-    ============================================================ */
+
     public function print($id_encomienda)
     {
         $data = Encomienda::with([

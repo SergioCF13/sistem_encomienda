@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <style>
-        /* Estilos para impresión */
+       
         @page { margin: 10mm; }
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -16,11 +16,18 @@
         }
 
         .ticket {
-            max-width: 320px; /* tamaño típico de etiqueta */
+            width: 100%;
+            max-width: 320px;
             margin: 0 auto;
             padding: 12px;
             background: #fff;
             border: 1px solid #e6e6e6;
+            margin-bottom: 10px;
+            page-break-after: always; 
+        }
+
+        .ticket:last-child {
+            page-break-after: auto;
         }
 
         .center { text-align: center; }
@@ -33,7 +40,12 @@
 
         .barcode { margin: 10px 0; text-align: center; }
 
-        /* Botones no se imprimen */
+        .divider {
+            border-top: 1px dashed #000;
+            margin: 10px 0;
+        }
+
+      
         .no-print { margin-top: 10px; text-align: center; }
         @media print {
             .no-print { display: none; }
@@ -42,9 +54,10 @@
     </style>
 </head>
 <body>
+    <!-- Ticket 1 para el cliente -->
     <div class="ticket">
         <div class="center">
-            <h>Parada de transporte 24 de Junio</h2>
+            <h2>Parada de transporte 24 de Junio</h2>
             <div class="small">Montero</div>
             <div class="small">Tel: 700-68837629</div>
         </div>
@@ -55,7 +68,8 @@
             <div class="col small">Código:</div>
             <div class="col right bold">{{ $data->codigo_barra }}</div>
         </div>
-                <div class="barcode">
+
+        <div class="barcode">
             <img src="{{ $barcodeUrl }}" alt="Código de barras" style="max-width:100%; height:auto;">
         </div>
 
@@ -89,15 +103,75 @@
             <div class="col right">{{ $data->sucursalDestino->nombre }}</div>
         </div>
 
-
         <div class="center small">
             Firma: _______________________
         </div>
 
-        <div class="no-print center">
-            <button onclick="window.print()" style="padding:8px 14px; font-size:14px;">Imprimir</button>
-            <a href="{{ route('encomiendas.show', $data->id_encomienda) }}" style="margin-left:8px;">Volver</a>
+        <div class="divider"></div> <!-- Línea para corte -->
+    </div>
+
+
+
+    <!-- Ticket 2 para la oficina -->
+    <div class="ticket">
+        <div class="center">
+            <h2>Parada de transporte 24 de Junio</h2>
+            <div class="small">Montero</div>
+            <div class="small">Tel: 700-68837629</div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col small">Código:</div>
+            <div class="col right bold">{{ $data->codigo_barra }}</div>
+        </div>
+
+        <div class="barcode">
+            <img src="{{ $barcodeUrl }}" alt="Código de barras" style="max-width:100%; height:auto;">
+        </div>
+
+        <div class="row">
+            <div class="col small">Fecha envío:</div>
+            <div class="col right">{{ \Carbon\Carbon::parse($data->fecha_envio)->format('d/m/Y') }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col small">Cliente:</div>
+            <div class="col right">{{ $data->cliente->nombre }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col small">Descripción:</div>
+            <div class="col right">{{ $data->descripcion }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col small">Peso:</div>
+            <div class="col right">{{ $data->peso }} kg</div>
+        </div>
+
+        <div class="row">
+            <div class="col small">Origen:</div>
+            <div class="col right">{{ $data->sucursalOrigen->nombre }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col small">Destino:</div>
+            <div class="col right">{{ $data->sucursalDestino->nombre }}</div>
+        </div>
+
+        <div class="center small">
+            Firma: _______________________
         </div>
     </div>
+
+    <script>
+        window.onload = function() {
+            window.print(); 
+            setTimeout(function() {
+                window.location.href = '{{ route("encomiendas.index") }}'; 
+            }, 1000); 
+    </script>
 </body>
 </html>

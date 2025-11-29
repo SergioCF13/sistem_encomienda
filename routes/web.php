@@ -29,13 +29,15 @@ Route::get('/sucursales/edit/{id_sucursal}', [SucursalController::class, 'edit']
 Route::put('/sucursales/update/{id_sucursal}', [SucursalController::class, 'update'])->name('sucursales.update');
 Route::delete('/sucursales/destroy/{id_sucursal}', [SucursalController::class, 'destroy'])->name('sucursales.destroy');
 
+
 // rutas choferes
 Route::get('/choferes', [ChoferController::class, 'index'])->name('choferes.index');
 Route::get('/choferes/create', [ChoferController::class, 'create'])->name('choferes.create');
 Route::post('/choferes', [ChoferController::class, 'store'])->name('choferes.store');
-Route::get('/choferes/{choferes}/edit', [ChoferController::class, 'edit'])->name('choferes.edit');
-Route::put('/choferes/{choferes}', [ChoferController::class, 'update'])->name('choferes.update');
-Route::delete('/choferes/{choferes}', [ChoferController::class, 'destroy'])->name('choferes.destroy');
+Route::get('/choferes/{chofer}/edit', [ChoferController::class, 'edit'])->name('choferes.edit');
+Route::put('/choferes/{chofer}', [ChoferController::class, 'update'])->name('choferes.update');
+Route::delete('/choferes/{chofer}', [ChoferController::class, 'destroy'])->name('choferes.destroy');
+
 
 // rutas de auto 
 Route::get('/autos', [AutoController::class, 'index'])->name('autos.index');
@@ -57,4 +59,6 @@ Route::delete('/encomiendas/{encomienda}', [EncomiendaController::class, 'destro
 Route::get('encomiendas/{id_encomienda}/print', [EncomiendaController::class, 'print'])->name('encomiendas.print');
 // Ruta para descargar PDF (la veremos después cuando integremos DOMPDF)
 Route::get('encomiendas/{id_encomienda}/pdf', [EncomiendaController::class, 'pdf'])->name('encomiendas.pdf');
+Route::get('/encomiendas/print/{id_encomienda}', [EncomiendaController::class, 'print'])->name('encomiendas.print');
+
 

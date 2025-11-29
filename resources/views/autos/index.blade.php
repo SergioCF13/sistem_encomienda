@@ -13,9 +13,9 @@
 </a>
 
 <div class="card shadow-sm">
-    <div class="card-body">
-        <table id="autos-table" class="table table-bordered table-striped">
-            <thead class="table-dark">
+    <div class="card-body p-0">
+        <table id="autos-table" class="table table-striped table-sm">
+            <thead class="bg-light">
                 <tr>
                     <th>ID</th>
                     <th>Placa</th>
@@ -26,7 +26,6 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-
             <tbody>
                 @foreach($autos as $auto)
                 <tr>
@@ -36,11 +35,10 @@
                     <td>{{ $auto->modelo }}</td>
                     <td>{{ $auto->capacidad }} Kg</td>
                     <td>
-                        <span class="badge
+                        <span class="badge 
                             @if($auto->estado == 'Disponible') bg-success
                             @elseif($auto->estado == 'En ruta') bg-warning
-                            @else bg-danger @endif
-                        ">
+                            @else bg-danger @endif">
                             {{ $auto->estado }}
                         </span>
                     </td>
@@ -48,7 +46,6 @@
                         <a href="{{ route('autos.edit', $auto) }}" class="btn btn-warning btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-
                         <form action="{{ route('autos.destroy', $auto) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
@@ -56,12 +53,10 @@
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>
-
                     </td>
                 </tr>
                 @endforeach
             </tbody>
-
         </table>
     </div>
 </div>
@@ -78,9 +73,14 @@
 
 <script>
 $('#autos-table').DataTable({
+    responsive: true,
+    pageLength: 10,
     language: {
         url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-    }
+    },
+    columnDefs: [
+        { orderable: false, targets: [6] }
+    ]
 });
 </script>
 @stop

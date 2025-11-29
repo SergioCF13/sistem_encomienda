@@ -30,7 +30,7 @@ return new class extends Migration
             $table->foreign('id_empleado')->references('id')->on('users');
             $table->foreign('id_sucursal_origen')->references('id_sucursal')->on('sucursales');
             $table->foreign('id_sucursal_destino')->references('id_sucursal')->on('sucursales');
-            $table->foreign('id_chofer')->references('id_choferes')->on('choferes');
+            $table->foreign('id_chofer')->references('id_chofer')->on('choferes');
             $table->foreign('id_auto')->references('id_auto')->on('autos');
         });
     }
