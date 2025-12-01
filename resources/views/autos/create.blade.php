@@ -14,6 +14,10 @@
 
                 <form action="{{ route('autos.store') }}" method="POST">
                     @csrf
+                    <div class="mb-3">
+                        <label class="fw-bold">Numero de Movil </label>
+                        <input type="number" step="0.01" name="numero_movil" class="form-control" required>
+                    </div>
 
                     <div class="mb-3">
                         <label class="fw-bold">Placa *</label>
@@ -30,10 +34,6 @@
                         <input type="text" name="modelo" class="form-control" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="fw-bold">Capacidad (Kg) *</label>
-                        <input type="number" step="0.01" name="capacidad" class="form-control" required>
-                    </div>
 
                     <div class="mb-3">
                         <label class="fw-bold">Estado</label>

@@ -18,10 +18,10 @@
             <thead class="bg-light">
                 <tr>
                     <th>ID</th>
+                    <th>Numero de Movil</th>
                     <th>Placa</th>
                     <th>Marca</th>
                     <th>Modelo</th>
-                    <th>Capacidad</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
@@ -29,11 +29,11 @@
             <tbody>
                 @foreach($autos as $auto)
                 <tr>
+                    <td>{{ $auto->numero_movil }}</td>
                     <td>{{ $auto->id_auto }}</td>
                     <td>{{ $auto->placa }}</td>
                     <td>{{ $auto->marca }}</td>
                     <td>{{ $auto->modelo }}</td>
-                    <td>{{ $auto->capacidad }} Kg</td>
                     <td>
                         <span class="badge 
                             @if($auto->estado == 'Disponible') bg-success

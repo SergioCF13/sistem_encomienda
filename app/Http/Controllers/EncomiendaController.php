@@ -13,7 +13,7 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class EncomiendaController extends Controller
 {
-
+    // Mostrar todas las encomiendas con la opción de búsqueda por código de barra
     public function index(Request $request)
     {
         $buscar = $request->buscar;
@@ -27,7 +27,7 @@ class EncomiendaController extends Controller
         return view('encomiendas.index', compact('encomiendas', 'buscar'));
     }
 
-
+    // Mostrar formulario para crear una nueva encomienda
     public function create()
     {
         return view('encomiendas.create', [
@@ -39,67 +39,12 @@ class EncomiendaController extends Controller
         ]);
     }
 
-
-public function store(Request $request)
-{
-    $request->validate([
-        'descripcion' => 'required',
-        'peso' => 'required|numeric',
-        'fecha_envio' => 'required|date',
-        'id_cliente' => 'required',
-        'id_empleado' => 'required',
-        'id_sucursal_origen' => 'required',
-        'id_sucursal_destino' => 'required',
-        'id_chofer' => 'required',
-        'id_auto' => 'required',
-    ]);
-
-    // Generar código único de la encomienda
-    $codigo = 'ENC-' . time() . '-' . rand(100, 999);
-
-    // Crear registro en BD con la fecha y hora actual
-    $encomienda = Encomienda::create([
-        'codigo_barra' => $codigo,
-        'descripcion' => $request->descripcion,
-        'peso' => $request->peso,
-        'fecha_envio' => now(),  // Usar la fecha y hora actual
-        'fecha_entrega' => null, // Se actualizará cuando se entregue
-        'estado' => 'En tránsito',
-        'id_cliente' => $request->id_cliente,
-        'id_empleado' => $request->id_empleado,
-        'id_sucursal_origen' => $request->id_sucursal_origen,
-        'id_sucursal_destino' => $request->id_sucursal_destino,
-        'id_chofer' => $request->id_chofer,
-        'id_auto' => $request->id_auto,
-    ]);
-
-    // Crear código de barras
-    $this->ensureBarcodeImage($codigo);
-
-    return redirect()->route('encomiendas.print', $encomienda->id_encomienda);
-}
-
-
-    public function edit($id)
+    // Almacenar una nueva encomienda en la base de datos
+    public function store(Request $request)
     {
-        return view('encomiendas.edit', [
-            'encomienda' => Encomienda::findOrFail($id),
-            'clientes'   => Cliente::all(),
-            'empleados'  => User::all(),
-            'sucursales' => Sucursal::all(),
-            'choferes'   => Chofer::all(),
-            'autos'      => Auto::all(),
-        ]);
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        $encomienda = Encomienda::findOrFail($id);
-
         $request->validate([
             'descripcion' => 'required',
-            'peso' => 'required|numeric',
+            'pago' => 'required|in:Cancelado,Por pagar,Qr,Otro', // Validación para los valores de pago
             'fecha_envio' => 'required|date',
             'id_cliente' => 'required',
             'id_empleado' => 'required',
@@ -109,13 +54,89 @@ public function store(Request $request)
             'id_auto' => 'required',
         ]);
 
-        $encomienda->update($request->all());
+        // Generar código único de la encomienda
+        $codigo = 'ENC-' . time() . '-' . rand(100, 999);
 
-        return redirect()->route('encomiendas.index')
-            ->with('success', 'Encomienda actualizada correctamente.');
+        // Crear la encomienda con los datos recibidos
+        $encomienda = Encomienda::create([
+            'codigo_barra' => $codigo,
+            'descripcion' => $request->descripcion,
+            'pago' => $request->pago,  // Guardamos el estado del pago
+            'fecha_envio' => now(),  // Fecha actual
+            'fecha_entrega' => null, 
+            'estado' => 'En tránsito',
+            'id_cliente' => $request->id_cliente,
+            'id_empleado' => $request->id_empleado,
+            'id_sucursal_origen' => $request->id_sucursal_origen,
+            'id_sucursal_destino' => $request->id_sucursal_destino,
+            'id_chofer' => $request->id_chofer,
+            'id_auto' => $request->id_auto,
+        ]);
+
+        // Crear código de barras
+        $this->ensureBarcodeImage($codigo);
+
+        return redirect()->route('encomiendas.print', $encomienda->id_encomienda);
     }
 
- 
+    // Mostrar formulario para editar una encomienda existente
+public function edit($id)
+{
+    $encomienda = Encomienda::findOrFail($id);
+    $encomienda->fecha_envio = \Carbon\Carbon::parse($encomienda->fecha_envio); // Convertir a Carbon
+
+    return view('encomiendas.edit', [
+        'encomienda' => $encomienda,
+        'clientes'   => Cliente::all(),
+        'empleados'  => User::all(),
+        'sucursales' => Sucursal::all(),
+        'choferes'   => Chofer::all(),
+        'autos'      => Auto::all(),
+    ]);
+}
+
+
+    // Actualizar la encomienda existente
+public function update(Request $request, $id)
+{
+    // Encontrar la encomienda
+    $encomienda = Encomienda::findOrFail($id);
+
+    // Validación de los datos
+    $request->validate([
+        'descripcion' => 'required',
+        'pago' => 'required|in:Cancelado,Por pagar,Qr,Otro', // Validación para el pago
+        'fecha_envio' => 'required|date',
+        'id_cliente' => 'required',
+        'id_empleado' => 'required',
+        'id_sucursal_origen' => 'required',
+        'id_sucursal_destino' => 'required',
+        'id_chofer' => 'required',
+        'id_auto' => 'required',
+    ]);
+
+    // Actualizar la encomienda con los datos recibidos
+    $encomienda->update([
+        'descripcion' => $request->descripcion,
+        'pago' => $request->pago,  // Actualizamos el estado del pago
+        'fecha_envio' => $request->fecha_envio,
+        'fecha_entrega' => $request->fecha_entrega,
+        'estado' => $request->estado,
+        'id_cliente' => $request->id_cliente,
+        'id_empleado' => $request->id_empleado,
+        'id_sucursal_origen' => $request->id_sucursal_origen,
+        'id_sucursal_destino' => $request->id_sucursal_destino,
+        'id_chofer' => $request->id_chofer,
+        'id_auto' => $request->id_auto,
+    ]);
+
+    // Redirigir con un mensaje de éxito
+    return redirect()->route('encomiendas.index')
+        ->with('success', 'Encomienda actualizada correctamente.');
+}
+
+
+    // Eliminar una encomienda
     public function destroy($id)
     {
         Encomienda::findOrFail($id)->delete();
@@ -124,7 +145,7 @@ public function store(Request $request)
             ->with('success', 'Encomienda eliminada.');
     }
 
-
+    // Mostrar los detalles de una encomienda
     public function show($id)
     {
         $data = Encomienda::with([
@@ -139,6 +160,7 @@ public function store(Request $request)
         return view('encomiendas.show', compact('data'));
     }
 
+    // Crear la imagen del código de barras
     protected function ensureBarcodeImage(string $codigo_barra): string
     {
         $dir = public_path('barcodes');
@@ -160,7 +182,7 @@ public function store(Request $request)
         return asset('barcodes/' . $fileName);
     }
 
-
+    // Mostrar la vista para imprimir la encomienda con el código de barras
     public function print($id_encomienda)
     {
         $data = Encomienda::with([
@@ -177,22 +199,21 @@ public function store(Request $request)
         return view('encomiendas.print', compact('data', 'barcodeUrl'));
     }
 
-public function deliver($id)
-{
-    $encomienda = Encomienda::findOrFail($id);
+    // Cambiar el estado de la encomienda a "Entregado"
+    public function deliver($id)
+    {
+        $encomienda = Encomienda::findOrFail($id);
 
-    // Verificar si la encomienda está en tránsito
-    if ($encomienda->estado == 'En tránsito') {
-        // Cambiar el estado a "Entregado"
-        $encomienda->estado = 'Entregado';
-        $encomienda->fecha_entrega = now();  // Fecha y hora de entrega
-        $encomienda->save();
+        // Verificar si la encomienda está en tránsito
+        if ($encomienda->estado == 'En tránsito') {
+            // Cambiar el estado a "Entregado"
+            $encomienda->estado = 'Entregado';
+            $encomienda->fecha_entrega = now();  // Fecha y hora de entrega
+            $encomienda->save();
 
-        return redirect()->route('encomiendas.index')->with('success', 'Encomienda entregada correctamente.');
+            return redirect()->route('encomiendas.index')->with('success', 'Encomienda entregada correctamente.');
+        }
+
+        return redirect()->route('encomiendas.index')->with('error', 'Esta encomienda no puede ser entregada.');
     }
-
-    return redirect()->route('encomiendas.index')->with('error', 'Esta encomienda no puede ser entregada.');
-}
-
-
 }

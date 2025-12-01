@@ -13,10 +13,10 @@ public function up()
 {
     Schema::create('autos', function (Blueprint $table) {
         $table->id('id_auto');
+        $table->string('numero_movil', 3);
         $table->string('placa', 20)->unique();
         $table->string('marca', 50);
         $table->string('modelo', 50);
-        $table->decimal('capacidad', 8, 2);
         $table->enum('estado', ['Disponible', 'En ruta', 'Mantenimiento'])->default('Disponible');
         $table->timestamps();
     });

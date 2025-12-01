@@ -21,10 +21,11 @@ class AutoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'numero_movil'=> 'required',
             'placa' => 'required|unique:autos,placa',
             'marca' => 'required',
             'modelo' => 'required',
-            'capacidad' => 'required|numeric'
+            
         ]);
 
         Auto::create($request->all());
@@ -40,10 +41,11 @@ class AutoController extends Controller
     public function update(Request $request, Auto $auto)
     {
         $request->validate([
+            'numero_movil'=> 'required',
             'placa' => 'required|unique:autos,placa,' . $auto->id_auto . ',id_auto',
             'marca' => 'required',
             'modelo' => 'required',
-            'capacidad' => 'required|numeric'
+            
         ]);
 
         $auto->update($request->all());

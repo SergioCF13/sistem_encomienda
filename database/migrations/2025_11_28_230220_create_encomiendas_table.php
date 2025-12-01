@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id('id_encomienda');
             $table->string('codigo_barra', 50)->unique();
             $table->string('descripcion', 150);
-            $table->decimal('peso', 8, 2);
-            $table->dateTime('fecha_envio');  // Cambio de date a datetime
-            $table->dateTime('fecha_entrega')->nullable();  // Cambio de date a datetime
+            $table->enum('pago', ['Cancelado', 'Por pagar', 'Qr', 'otro'])->default('Cancelado');
+            $table->dateTime('fecha_envio'); 
+            $table->dateTime('fecha_entrega')->nullable();  
             $table->enum('estado', ['En tránsito', 'Entregado', 'Cancelado'])->default('En tránsito');
 
             $table->unsignedBigInteger('id_cliente');

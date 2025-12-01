@@ -17,6 +17,10 @@
                     @method('PUT')
 
                     <div class="mb-3">
+                        <label class="fw-bold">Numero de Movil (Kg) *</label>
+                        <input type="number" step="0.01" name="capacidad" class="form-control" value="{{ $auto->numero_movil }}" required>
+                    </div>
+                    <div class="mb-3">
                         <label class="fw-bold">Placa *</label>
                         <input type="text" name="placa" class="form-control" value="{{ $auto->placa }}" required>
                     </div>
@@ -31,10 +35,7 @@
                         <input type="text" name="modelo" class="form-control" value="{{ $auto->modelo }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="fw-bold">Capacidad (Kg) *</label>
-                        <input type="number" step="0.01" name="capacidad" class="form-control" value="{{ $auto->capacidad }}" required>
-                    </div>
+
 
                     <div class="mb-3">
                         <label class="fw-bold">Estado</label>

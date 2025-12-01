@@ -24,10 +24,10 @@
                 <tr>
                     <th>Código</th>
                     <th>Descripción</th>
-                    <th>Peso</th>
+                    <th>Pago</th>
                     <th>Cliente</th>
-                    <th>Fecha Envío</th>  <!-- Nueva columna de fecha de envío -->
-                    <th>Fecha Entrega</th>  <!-- Nueva columna de fecha de entrega -->
+                    <th>Fecha Envío</th>  
+                    <th>Fecha Entrega</th>  
                     <th>Estado</th>
                     <th>Opciones</th>
                 </tr>
@@ -37,32 +37,32 @@
                 <tr>
                     <td>{{ $e->codigo_barra }}</td>
                     <td>{{ $e->descripcion }}</td>
-                    <td>{{ $e->peso }} kg</td>
+                    <td>{{ $e->pago }} </td>
                     <td>{{ $e->cliente->nombre }}</td>
-                    <td>{{ \Carbon\Carbon::parse($e->fecha_envio)->format('d/m/Y H:i') }}</td>  <!-- Mostrar fecha de envío -->
+                    <td>{{ \Carbon\Carbon::parse($e->fecha_envio)->format('d/m/Y H:i') }}</td>  
                     <td>
                         @if($e->fecha_entrega)
                             {{ \Carbon\Carbon::parse($e->fecha_entrega)->format('d/m/Y H:i') }}
                         @else
                             <span class="text-muted">Pendiente</span>
                         @endif
-                    </td>  <!-- Mostrar fecha de entrega si existe -->
+                    </td>  
                     <td>{{ $e->estado }}</td>
                     <td>
                         <a href="{{ route('encomiendas.show', $e->id_encomienda) }}" class="btn btn-info btn-sm" title="Ver">
                             <i class="fas fa-eye"></i>
                         </a>
 
-                        <!-- Opción de entregar si está en tránsito -->
+                       
                         @if($e->estado == 'En tránsito')
                             <a href="{{ route('encomiendas.deliver', $e->id_encomienda) }}" class="btn btn-success btn-sm" title="Entregar">
                                 <i class="fas fa-check"></i> Entregar
                             </a>
                         @endif
 
-                        <a href="{{ route('encomiendas.edit', $e->id_encomienda) }}" class="btn btn-warning btn-sm" title="Editar">
+<!--                         <a href="{{ route('encomiendas.edit', $e->id_encomienda) }}" class="btn btn-warning btn-sm" title="Editar">
                             <i class="fas fa-edit"></i>
-                        </a>
+                        </a> -->
                         <a href="{{ route('encomiendas.print', $e->id_encomienda) }}" class="btn btn-outline-primary btn-sm" target="_blank" title="Imprimir Ticket">
                             <i class="fas fa-print"></i>
                         </a>

@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <style>
-        /* Establecer márgenes de la página */
+        
         @page { margin: 10mm; }
         body {
             font-family: 'Arial', Helvetica, sans-serif;
             color: #333;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4; /* Fondo gris claro */
+            background-color: #f4f4f4; 
         }
 
         .ticket {
@@ -22,10 +22,10 @@
             margin: 0 auto;
             padding: 15px;
             background: #fff;
-            border: 1px solid #ddd; /* Bordes suaves */
+            border: 1px solid #ddd; 
             margin-bottom: 15px;
             page-break-after: always;
-            border-radius: 6px; /* Bordes redondeados */
+            border-radius: 6px; 
         }
 
         .ticket:last-child {
@@ -35,20 +35,20 @@
         .center { text-align: center; }
         h2 {
             font-size: 20px;
-            color: #444; /* Color oscuro para el título */
+            color: #444; 
             margin-bottom: 8px;
-            border-bottom: 2px solid #444; /* Línea de separación */
+            border-bottom: 2px solid #444; 
             padding-bottom: 5px;
         }
 
         .small {
             font-size: 13px;
-            color: #777; /* Gris más suave para los detalles */
+            color: #777; 
         }
 
         .bold {
             font-weight: 700;
-            color: #222; /* Color más oscuro para los datos importantes */
+            color: #222; 
         }
 
         .row {
@@ -67,7 +67,7 @@
         }
 
         .divider {
-            border-top: 1px solid #ddd; /* Línea de separación delgada */
+            border-top: 1px solid #ddd; 
             margin: 10px 0;
         }
 
@@ -78,10 +78,10 @@
             color: #777;
         }
 
-        /* Estilos para la impresión */
+      
         @media print {
             body { margin: 0; padding: 0; }
-            .no-print { display: none; } /* Esconde el botón de imprimir */
+            .no-print { display: none; } 
         }
 
         .no-print {
@@ -111,8 +111,10 @@
         </div>
 
         <div class="row">
-            <div class="col small">Fecha envío:</div>
-            <div class="col right">{{ \Carbon\Carbon::parse($data->fecha_envio)->format('d/m/Y') }}</div>
+            <div class="col small">Fecha Envío:</div>
+            <div class="col right">
+                {{ \Carbon\Carbon::parse($data->fecha_envio)->format('d/m/Y H:i') }}
+            </div>
         </div>
 
         <div class="row">
@@ -126,8 +128,8 @@
         </div>
 
         <div class="row">
-            <div class="col small">Peso:</div>
-            <div class="col right">{{ $data->peso }} kg</div>
+            <div class="col small">Pago:</div>
+            <div class="col right">{{ $data->pago }} </div>
         </div>
 
         <div class="row">
@@ -144,7 +146,7 @@
             Firma: _______________________
         </div>
 
-        <div class="divider"></div> <!-- Línea de corte -->
+        <div class="divider"></div> 
     </div>
 
     <!-- Ticket 2 para la oficina -->
@@ -167,9 +169,12 @@
         </div>
 
         <div class="row">
-            <div class="col small">Fecha envío:</div>
-            <div class="col right">{{ \Carbon\Carbon::parse($data->fecha_envio)->format('d/m/Y') }}</div>
+            <div class="col small">Fecha Envío:</div>
+            <div class="col right">
+                {{ \Carbon\Carbon::parse($data->fecha_envio)->format('d/m/Y H:i') }}
+            </div>
         </div>
+
 
         <div class="row">
             <div class="col small">Cliente:</div>
@@ -182,8 +187,8 @@
         </div>
 
         <div class="row">
-            <div class="col small">Peso:</div>
-            <div class="col right">{{ $data->peso }} kg</div>
+            <div class="col small">Pago:</div>
+            <div class="col right">{{ $data->pago }} </div>
         </div>
 
         <div class="row">
@@ -207,10 +212,10 @@
 
     <script>
         window.onload = function() {
-            window.print(); // Imprime automáticamente cuando se carga la página
+            window.print(); 
             setTimeout(function() {
-                window.location.href = '{{ route("encomiendas.index") }}'; // Redirige a la vista de index
-            }, 1000); // Retraso de 1 segundo antes de redirigir
+                window.location.href = '{{ route("encomiendas.index") }}'; 
+            }, 1000); 
         }
     </script>
 </body>

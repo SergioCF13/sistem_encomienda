@@ -12,7 +12,7 @@ class Encomienda extends Model
     protected $fillable = [
         'codigo_barra',
         'descripcion',
-        'peso',
+        'pago',
         'fecha_envio',
         'fecha_entrega',
         'estado',
@@ -24,7 +24,7 @@ class Encomienda extends Model
         'id_auto',
     ];
 
-    // Relación de los campos fecha como datetime
+  
     protected $dates = ['fecha_envio', 'fecha_entrega'];
 
     // Relaciones
