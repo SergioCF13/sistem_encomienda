@@ -44,22 +44,27 @@
                                     <span class="badge bg-danger px-3 py-2">Inactivo</span>
                                 @endif
                             </td>
+                            
                             <td>
                                 <a href="{{ route('clientes.edit', $cliente->id_cliente) }}" 
                                    class="btn btn-sm btn-outline-warning me-1" 
                                    title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('clientes.destroy', $cliente->id_cliente) }}" 
-                                      method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" 
-                                            onclick="return confirm('¿Desea eliminar este cliente?')" 
-                                            title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+
+                                <!-- Mostrar el botón de eliminar solo si el usuario tiene el rol de Admin -->
+                                @if(Auth::user()->hasRole('Admin'))
+                                    <form action="{{ route('clientes.destroy', $cliente->id_cliente) }}" 
+                                          method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                onclick="return confirm('¿Desea eliminar este cliente?')" 
+                                                title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

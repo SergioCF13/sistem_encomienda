@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('estado', ['En tránsito', 'Entregado', 'Cancelado'])->default('En tránsito');
 
             $table->unsignedBigInteger('id_cliente');
-            $table->unsignedBigInteger('id_empleado'); // users
+            $table->unsignedBigInteger('id_empleado'); 
             $table->unsignedBigInteger('id_sucursal_origen');
             $table->unsignedBigInteger('id_sucursal_destino');
             $table->unsignedBigInteger('id_chofer');

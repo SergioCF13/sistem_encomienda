@@ -17,7 +17,7 @@
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label class="fw-bold">Numero de Movil (Kg) *</label>
+                        <label class="fw-bold">Numero de Movil</label>
                         <input type="number" step="0.01" name="capacidad" class="form-control" value="{{ $auto->numero_movil }}" required>
                     </div>
                     <div class="mb-3">

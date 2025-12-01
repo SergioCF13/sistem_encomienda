@@ -26,7 +26,7 @@
                     <strong>Origen:</strong> {{ $data->sucursalOrigen->nombre }}<br>
                     <strong>Destino:</strong> {{ $data->sucursalDestino->nombre }}<br>
 
-                    <!-- Botón de Entregar solo si está en tránsito -->
+               
                     @if($data->estado == 'En tránsito')
                         <a href="{{ route('encomiendas.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Cancelar

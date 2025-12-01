@@ -54,7 +54,7 @@ public function update(Request $request, Chofer $chofer)
 public function destroy(Chofer $chofer)
 {
     
-    $chofer->delete();  // Elimina al chofer completamente
+    $chofer->delete();  
     return redirect()->route('choferes.index')->with('success', 'Chofer eliminado correctamente.');
 }
 

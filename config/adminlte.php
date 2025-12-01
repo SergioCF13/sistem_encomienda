@@ -314,17 +314,17 @@ return [
         [
             'text' => 'Choferes',
             'url'  => 'choferes',
-            'icon' => 'fas fa-id-card',   // icono de chofer / identificación
+            'icon' => 'fas fa-id-card',   
         ],
         [
             'text' => 'Autos',
             'url'  => 'autos',
-            'icon' => 'fas fa-car-side',  // icono de auto
+            'icon' => 'fas fa-car-side',  
         ],
         [
             'text' => 'Encomiendas',
             'url'  => 'encomiendas',
-            'icon' => 'fas fa-box',       // icono de encomienda / paquete
+            'icon' => 'fas fa-box',       
         ],
 
 
