@@ -25,9 +25,11 @@
                     <th>Código</th>
                     <th>Descripción</th>
                     <th>Pago</th>
-                    <th>Cliente</th>
+                   <!--  <th>Cliente</th> -->
                     <th>Fecha Envío</th>  
                     <th>Fecha Entrega</th>  
+                    <th>Origen</th>
+                    <th>Destino</th>
                     <th>Estado</th>
                     <th>Opciones</th>
                 </tr>
@@ -38,7 +40,7 @@
                     <td>{{ $e->codigo_barra }}</td>
                     <td>{{ $e->descripcion }}</td>
                     <td>{{ $e->pago }} </td>
-                    <td>{{ $e->cliente->nombre }}</td>
+                    <!-- <td>{{ $e->cliente->nombre }}</td> -->
                     <td>{{ \Carbon\Carbon::parse($e->fecha_envio)->format('d/m/Y H:i') }}</td>  
                     <td>
                         @if($e->fecha_entrega)
@@ -46,7 +48,9 @@
                         @else
                             <span class="text-muted">Pendiente</span>
                         @endif
-                    </td>  
+                    </td> 
+                    <td>{{ $e->sucursalOrigen->nombre ?? 'Sin dato' }}</td>
+                    <td>{{ $e->sucursalDestino->nombre ?? 'Sin dato' }}</td>
                     <td>{{ $e->estado }}</td>
                     <td>
                         <a href="{{ route('encomiendas.show', $e->id_encomienda) }}" class="btn btn-info btn-sm" title="Ver">
@@ -66,13 +70,26 @@
                         <a href="{{ route('encomiendas.print', $e->id_encomienda) }}" class="btn btn-outline-primary btn-sm" target="_blank" title="Imprimir Ticket">
                             <i class="fas fa-print"></i>
                         </a>
-                        <form action="{{ route('encomiendas.destroy', $e->id_encomienda) }}" method="POST" style="display:inline;">
+                                <!-- Mostrar el botón de eliminar solo si el usuario tiene el rol de Admin -->
+                                @if(Auth::user()->hasRole('Admin'))
+                                    <form action="{{ route('encomiendas.destroy', $e->id_encomienda) }}" 
+                                          method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                onclick="return confirm('¿Desea eliminar esta Encomienda?')" 
+                                                title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
+<!--                         <form action="{{ route('encomiendas.destroy', $e->id_encomienda) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar encomienda?')" title="Eliminar">
                                 <i class="fas fa-trash"></i>
                             </button>
-                        </form>
+                        </form> -->
                     </td>
                 </tr>
                 @endforeach
@@ -100,7 +117,7 @@ $(document).ready(function() {
             url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
         },
         columnDefs: [
-            { orderable: false, targets: [7] }
+            { orderable: false, targets: [8] }
         ]
     });
 });

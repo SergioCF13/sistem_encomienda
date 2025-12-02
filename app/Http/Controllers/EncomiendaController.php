@@ -207,8 +207,15 @@ public function update(Request $request, $id)
         if ($encomienda->estado == 'En tránsito') {
           
             $encomienda->estado = 'Entregado';
+            if ($encomienda->pago=='Qr'){
+                $encomienda->pago = 'Qr';
+            }else{
+                $encomienda->pago = 'Cancelado';
+            }
+            
             $encomienda->fecha_entrega = now();  
             $encomienda->save();
+            
 
             return redirect()->route('encomiendas.index')->with('success', 'Encomienda entregada correctamente.');
         }

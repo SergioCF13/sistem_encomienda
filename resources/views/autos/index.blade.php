@@ -42,17 +42,36 @@
                             {{ $auto->estado }}
                         </span>
                     </td>
+
+
+
+                    
                     <td>
                         <a href="{{ route('autos.edit', $auto) }}" class="btn btn-warning btn-sm">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <form action="{{ route('autos.destroy', $auto) }}" method="POST" class="d-inline">
+                        
+                                <!-- Mostrar el botón de eliminar solo si el usuario tiene el rol de Admin -->
+                                @if(Auth::user()->hasRole('Admin'))
+                                    <form action="{{ route('autos.destroy', $auto->id_auto) }}" 
+                                          method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                onclick="return confirm('¿Desea eliminar este auto?')" 
+                                                title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                        
+<!--                         <form action="{{ route('autos.destroy', $auto) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button onclick="return confirm('¿Eliminar auto?')" class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash"></i>
                             </button>
-                        </form>
+                        </form> -->
                     </td>
                 </tr>
                 @endforeach

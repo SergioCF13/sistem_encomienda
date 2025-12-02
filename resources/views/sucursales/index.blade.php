@@ -43,7 +43,20 @@
                                    class="btn btn-sm btn-outline-warning me-1" title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form action="{{ route('sucursales.destroy', $sucursal->id_sucursal) }}" 
+                                <!-- Mostrar el botón de eliminar solo si el usuario tiene el rol de Admin -->
+                                @if(Auth::user()->hasRole('Admin'))
+                                    <form action="{{ route('sucursales.destroy', $sucursal->id_sucursal) }}" 
+                                          method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                onclick="return confirm('¿Desea eliminar este Sucursal?')" 
+                                                title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
+<!--                                 <form action="{{ route('sucursales.destroy', $sucursal->id_sucursal) }}" 
                                       method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
@@ -52,7 +65,7 @@
                                             title="Desactivar">
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                </form>
+                                </form> -->
                             </td>
                         </tr>
                     @endforeach
