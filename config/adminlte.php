@@ -299,7 +299,11 @@ return [
     */
 
     'menu' => [
-
+        [
+            'text' => 'user',
+            'url'  => 'users',
+            'icon' => 'fas fa-users',       
+        ],
 
         [
             'text' => 'Clientes',
@@ -326,6 +330,7 @@ return [
             'url'  => 'encomiendas',
             'icon' => 'fas fa-box',       
         ],
+
 
 
 

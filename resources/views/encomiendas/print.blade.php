@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <title>Ticket - {{ $data->codigo_barra }}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-
     <style>
-        
         @page { margin: 10mm; }
         body {
             font-family: 'Arial', Helvetica, sans-serif;
@@ -78,7 +76,6 @@
             color: #777;
         }
 
-      
         @media print {
             body { margin: 0; padding: 0; }
             .no-print { display: none; } 
@@ -97,6 +94,8 @@
             <h2>Parada de transporte 24 de Junio</h2>
             <div class="small">Montero</div>
             <div class="small">Tel: 700-68837629</div>
+            <!-- Mostrar el nombre del usuario logueado -->
+            <div class="small">Usuario: {{ auth()->user()->name }}</div> <!-- Aquí se muestra el nombre del usuario -->
         </div>
 
         <div class="divider"></div>
@@ -155,6 +154,8 @@
             <h2>Parada de transporte 24 de Junio</h2>
             <div class="small">Montero</div>
             <div class="small">Tel: 700-68837629</div>
+            <!-- Mostrar el nombre del usuario logueado en el segundo ticket -->
+            <div class="small">Usuario: {{ auth()->user()->name }}</div> <!-- Aquí se muestra el nombre del usuario -->
         </div>
 
         <div class="divider"></div>
@@ -174,7 +175,6 @@
                 {{ \Carbon\Carbon::parse($data->fecha_envio)->format('d/m/Y H:i') }}
             </div>
         </div>
-
 
         <div class="row">
             <div class="col small">Cliente:</div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\ChoferController;
 use App\Http\Controllers\AutoController;
 use App\Http\Controllers\EncomiendaController;
+use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -65,3 +66,6 @@ Route::get('/encomiendas/{id}/deliver', [EncomiendaController::class, 'deliver']
 
 
 
+
+
+Route::resource('users', UserController::class);
