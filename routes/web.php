@@ -7,6 +7,8 @@ use App\Http\Controllers\ChoferController;
 use App\Http\Controllers\AutoController;
 use App\Http\Controllers\EncomiendaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
+
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -69,3 +71,6 @@ Route::get('/encomiendas/{id}/deliver', [EncomiendaController::class, 'deliver']
 
 
 Route::resource('users', UserController::class);
+// Definir la ruta para el dashboard
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+

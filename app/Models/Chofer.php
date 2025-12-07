@@ -18,4 +18,5 @@ class Chofer extends Model
         'telefono',
         'estado',
     ];
+    
 }

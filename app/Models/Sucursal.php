@@ -12,4 +12,7 @@ class Sucursal extends Model
     protected $table = 'sucursales';
     protected $primaryKey = 'id_sucursal';
     protected $fillable = ['nombre', 'ciudad', 'direccion', 'estado'];
+
+
+    
 }

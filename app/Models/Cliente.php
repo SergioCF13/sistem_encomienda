@@ -19,4 +19,5 @@ class Cliente extends Model
         'direccion',
         'estado',
     ];
+    
 }
