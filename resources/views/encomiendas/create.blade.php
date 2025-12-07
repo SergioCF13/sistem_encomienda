@@ -22,26 +22,21 @@
                     </div>
 
                     <div class="row mb-3">
-<div class="row mb-3">
-    <div class="col-md-6">
-        <label for="pago" class="form-label fw-bold">Pago <span class="text-danger">*</span></label>
-        <select name="pago" id="pago" class="form-select form-select-sm @error('pago') is-invalid @enderror" required>
-            <option value="Cancelado" {{ old('pago') == 'Cancelado' ? 'selected' : '' }}>Cancelado</option>
-            <option value="Por pagar" {{ old('pago') == 'Por pagar' ? 'selected' : '' }}>Por pagar</option>
-            <option value="Qr" {{ old('pago') == 'Qr' ? 'selected' : '' }}>Qr</option>
-            <option value="Otro" {{ old('pago') == 'Otro' ? 'selected' : '' }}>Otro</option>
-        </select>
-        @error('pago') <small class="text-danger">{{ $message }}</small> @enderror
-    </div>
-</div>
-
-
+                        <div class="col-md-6">
+                            <label for="pago" class="form-label fw-bold">Pago <span class="text-danger">*</span></label>
+                            <select name="pago" id="pago" class="form-select form-select-sm @error('pago') is-invalid @enderror" required>
+                                <option value="Cancelado" {{ old('pago') == 'Cancelado' ? 'selected' : '' }}>Cancelado</option>
+                                <option value="Por pagar" {{ old('pago') == 'Por pagar' ? 'selected' : '' }}>Por pagar</option>
+                                <option value="Qr" {{ old('pago') == 'Qr' ? 'selected' : '' }}>Qr</option>
+                                <option value="Otro" {{ old('pago') == 'Otro' ? 'selected' : '' }}>Otro</option>
+                            </select>
+                            @error('pago') <small class="text-danger">{{ $message }}</small> @enderror
+                        </div>
                         <div class="col-md-6">
                             <label for="fecha_envio" class="form-label fw-bold">Fecha Envío <span class="text-danger">*</span></label>
                             <input type="date" name="fecha_envio" id="fecha_envio" class="form-control form-control-sm @error('fecha_envio') is-invalid @enderror" value="" required>
                             @error('fecha_envio') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
-
                     </div>
 
                     <div class="row mb-3">
@@ -56,19 +51,6 @@
                             @error('id_cliente') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="id_empleado" class="form-label fw-bold">Empleado <span class="text-danger">*</span></label>
-                            <select name="id_empleado" id="id_empleado" class="form-select form-select-sm select2 @error('id_empleado') is-invalid @enderror" required>
-                                <option value="" disabled selected>Seleccione un empleado</option> <!-- Opción vacía al inicio -->
-                                @foreach ($empleados as $e)
-                                    <option value="{{ $e->id }}">{{ $e->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('id_empleado') <small class="text-danger">{{ $message }}</small> @enderror
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
                             <label for="id_sucursal_origen" class="form-label fw-bold">Sucursal Origen <span class="text-danger">*</span></label>
                             <select name="id_sucursal_origen" id="id_sucursal_origen" class="form-select form-select-sm select2 @error('id_sucursal_origen') is-invalid @enderror" required>
                                 <option value="" disabled selected>Seleccione sucursal origen</option> <!-- Opción vacía al inicio -->
@@ -78,6 +60,9 @@
                             </select>
                             @error('id_sucursal_origen') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="id_sucursal_destino" class="form-label fw-bold">Sucursal Destino <span class="text-danger">*</span></label>
                             <select name="id_sucursal_destino" id="id_sucursal_destino" class="form-select form-select-sm select2 @error('id_sucursal_destino') is-invalid @enderror" required>
@@ -88,9 +73,6 @@
                             </select>
                             @error('id_sucursal_destino') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
-                    </div>
-
-                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="id_chofer" class="form-label fw-bold">Chofer <span class="text-danger">*</span></label>
                             <select name="id_chofer" id="id_chofer" class="form-select form-select-sm select2 @error('id_chofer') is-invalid @enderror" required>
@@ -101,6 +83,9 @@
                             </select>
                             @error('id_chofer') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="id_auto" class="form-label fw-bold">Auto <span class="text-danger">*</span></label>
                             <select name="id_auto" id="id_auto" class="form-select form-select-sm select2 @error('id_auto') is-invalid @enderror" required>
@@ -112,6 +97,9 @@
                             @error('id_auto') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
                     </div>
+
+                    <!-- Campo oculto para el empleado (usuario logueado) -->
+                    <input type="hidden" name="id_empleado" value="{{ auth()->id() }}">
 
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('encomiendas.index') }}" class="btn btn-outline-secondary">

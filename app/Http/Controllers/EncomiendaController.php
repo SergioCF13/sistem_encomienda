@@ -28,56 +28,58 @@ class EncomiendaController extends Controller
     }
 
     
-    public function create()
-    {
-        return view('encomiendas.create', [
-            'clientes'   => Cliente::all(),
-            'empleados'  => User::all(),
-            'sucursales' => Sucursal::all(),
-            'choferes'   => Chofer::all(),
-            'autos'      => Auto::all(),
-        ]);
-    }
+public function create()
+{
+    return view('encomiendas.create', [
+        'clientes'   => Cliente::all(),
+        'empleados'  => User::all(),
+        'sucursales' => Sucursal::all(),
+        'choferes'   => Chofer::all(),
+        'autos'      => Auto::all(),
+        'id_empleado' => auth()->id(), 
+    ]);
+}
+
 
     
-    public function store(Request $request)
-    {
-        $request->validate([
-            'descripcion' => 'required',
-            'pago' => 'required|in:Cancelado,Por pagar,Qr,Otro', 
-            'fecha_envio' => 'required|date',
-            'id_cliente' => 'required',
-            'id_empleado' => 'required',
-            'id_sucursal_origen' => 'required',
-            'id_sucursal_destino' => 'required',
-            'id_chofer' => 'required',
-            'id_auto' => 'required',
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'descripcion' => 'required',
+        'pago' => 'required|in:Cancelado,Por pagar,Qr,Otro',
+        'fecha_envio' => 'required|date',
+        'id_cliente' => 'required',
+        'id_empleado' => 'required', // Ya no es necesario seleccionar el empleado, lo asignamos automáticamente
+        'id_sucursal_origen' => 'required',
+        'id_sucursal_destino' => 'required',
+        'id_chofer' => 'required',
+        'id_auto' => 'required',
+    ]);
 
-       
-        $codigo = 'ENC-' . time() . '-' . rand(100, 999);
+    $codigo = 'ENC-' . time() . '-' . rand(100, 999);
 
-        
-        $encomienda = Encomienda::create([
-            'codigo_barra' => $codigo,
-            'descripcion' => $request->descripcion,
-            'pago' => $request->pago,  
-            'fecha_envio' => now(),  
-            'fecha_entrega' => null, 
-            'estado' => 'En tránsito',
-            'id_cliente' => $request->id_cliente,
-            'id_empleado' => $request->id_empleado,
-            'id_sucursal_origen' => $request->id_sucursal_origen,
-            'id_sucursal_destino' => $request->id_sucursal_destino,
-            'id_chofer' => $request->id_chofer,
-            'id_auto' => $request->id_auto,
-        ]);
+    // Al crear la encomienda, se asigna automáticamente el id del usuario logueado
+    $encomienda = Encomienda::create([
+        'codigo_barra' => $codigo,
+        'descripcion' => $request->descripcion,
+        'pago' => $request->pago,
+        'fecha_envio' => now(),
+        'fecha_entrega' => null,
+        'estado' => 'En tránsito',
+        'id_cliente' => $request->id_cliente,
+        'id_empleado' => auth()->id(),  // El usuario logueado se asigna automáticamente
+        'id_sucursal_origen' => $request->id_sucursal_origen,
+        'id_sucursal_destino' => $request->id_sucursal_destino,
+        'id_chofer' => $request->id_chofer,
+        'id_auto' => $request->id_auto,
+    ]);
 
-     
-        $this->ensureBarcodeImage($codigo);
+    // Generar el código de barras
+    $this->ensureBarcodeImage($codigo);
 
-        return redirect()->route('encomiendas.print', $encomienda->id_encomienda);
-    }
+    return redirect()->route('encomiendas.print', $encomienda->id_encomienda);
+}
+
 
     
 public function edit($id)

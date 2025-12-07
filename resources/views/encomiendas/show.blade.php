@@ -25,6 +25,8 @@
                     <strong>Estado:</strong> {{ $data->estado }}<br>
                     <strong>Origen:</strong> {{ $data->sucursalOrigen->nombre }}<br>
                     <strong>Destino:</strong> {{ $data->sucursalDestino->nombre }}<br>
+                    <strong>Usuario Atendido:</strong> {{ $data->sucursalDestino->nombre }}<br>
+                      <strong>Usuario Atendido:</strong> {{ auth()->user()->name }}<br>
 
                
                     @if($data->estado == 'En tránsito')
